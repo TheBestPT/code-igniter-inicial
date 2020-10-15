@@ -53,5 +53,23 @@ class Upload extends CI_Controller {
                 $this->load->library('upload');
                 //definimos um caminho para upload, neste caso sera na raiz /app2
                 $path = '../ficheiros';
+                //definimos as configs para o upload
+                //determinamos o path para gravar o arquivo
+                $config['upload_path'] = $path;
+                //definimos - atraves da extensao, os tipos de arquivos suportados
+                $config['allowed_types'] = 'jpg|png|gif|pdf|zip|rar|doc|xls';
+                //definimos o maximo permitido
+                //php.ini definimos os tamanhos permitidos
+                //post_max_sixe=15M -> pelo post
+                //upload_max_filessize=15M //por upload
+                $config['max_size'] = 51120;//em KB
+                //definimos que o nome do arquivo sera criptografado
+                $config['encrypt_name'] = TRUE;
+                //verificamos se o diretorio existe se nao existe criamos com permissao de leitura e escrita
+                if(!is_dir($path)){
+                        mkdir($path, 0777, $recursive = true);
+                        //setamos(passamos) as configs para a library upload
+                        $this->upload->initialize($config);
+                }
         }
 }
