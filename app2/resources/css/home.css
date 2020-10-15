@@ -1,0 +1,14 @@
+body{
+    color: #f0f;//#ff00ff
+}
+nav ul li.active{
+    color: #00f;
+}
+
+.alert, .alert-danger{
+    color: #f00;
+}
+
+.alert-sucess{
+    color: #0f0;
+}
