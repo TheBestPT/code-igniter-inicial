@@ -9,25 +9,31 @@
 		</div>
 	</div>
 	<? //print_r($formErros);?>
-	<?=validation_errors('<div class="alert>', '</div>');?>
+	<?if($formErrors){?>
+		<div class="alert alert-danger"><?=$formErrors;?></div>
+	<?}else{
+		if($this->session->flashdata('sucess_msg')){?>
+		<div class="alert alert-sucess"><?=$this->session->flashdata('sucess_msg');?></div>
+		<?}
+	}?>
+
+
+	<?//=validation_errors('<div class="alert>', '</div>');?>
 	<div class="container">
 		<div class="page-header">
 			<h1>Formulário de Contato</h1>
 		</div>
-		<form class="" method="POST" action="">
-			<label for="nome">Nome</label>
-			<input id="nome" name="nome" placeholder="Nome" required="required" type="text">
-			<label for="email">Email</label>
-			<input id="email" name="email" placeholder="Email" type="text">
-			<span>Ex.: email@example.com</span>
-			<label for="telefone">Telefone</label>
-			<input id="telefone" name="telefone" placeholder="Telefone" required="required" type="text">
-			<label for="assunto">Assunto</label>
-			<input id="assunto" name="assunto" placeholder="Assunto" type="text">
-			<label for="mensagem">Mensagem</label>
-			<textarea id="mensagem" name="mensagem" row="10">mensagem</textarea>
-			<input type="submit" value="Enviar"/>
-			
-		</form>
+		<?=form_open_multipart(base_url('upload'), array("class" => "form-horizontal", "method" => "PSOT"));
+		?>
+		<label for="nome">Nome</label>
+		<?=form_input(array("name" => "nome", "id" => "nome"), set_value('nome'), array("class" => "form-control input-md", "required" =>"required", "type" => "text", "placeholder" => "Nome"));?>
+		<label for="telefone">Telefone</label>
+		<?=form_input(array("name" => "telefone", "id" => "telefone"), set_value('telefone'), array("class" => "form-control input-md", "required" =>"required", "type" => "text", "placeholder" => "Telefone"));
+		?>
+		<label for="ficheiro">Selecione um file (jpg|png|gif|pdf|zip|rar|doc|xls)</label>
+		<?=form_upload(array("name" => "ficheiro", "id" => "ficheiro"), set_value('ficheiro'), array("class" => "input-file", "required" => ""));		
+		?>
+		<input type="submit" value="enviar"/>
+		<?=form_close();?>
 	</div>
 <? $this->load->view('comuns/footer'); ?>

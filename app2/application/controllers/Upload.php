@@ -24,7 +24,7 @@ class Upload extends CI_Controller {
                 $data['title'] = "Upload";
                 $data['description'] = "Description Upload";   
                 $this->form_validation->set_rules('nome', 'Nome', 'required|min_length[3]');
-                $this->form_validation->set_rules('telfone', 'Telefone', 'required|numeric');
+                $this->form_validation->set_rules('telefone', 'Telefone', 'required|numeric');
                 if($this->form_validation->run() == FALSE){
                         /*
                         validation_error() - metodo responsavel por recuperar as mensagens geradas pelas regras de validação que foram processados com a instrucao $this->form_validation->run()
@@ -66,10 +66,34 @@ class Upload extends CI_Controller {
                 //definimos que o nome do arquivo sera criptografado
                 $config['encrypt_name'] = TRUE;
                 //verificamos se o diretorio existe se nao existe criamos com permissao de leitura e escrita
-                if(!is_dir($path)){
+                if(!is_dir($path))
                         mkdir($path, 0777, $recursive = true);
-                        //setamos(passamos) as configs para a library upload
-                        $this->upload->initialize($config);
+                //setamos(passamos) as configs para a library upload
+                $this->upload->initialize($config);
+                if(!$this->upload->do_upload($inputFileName)){
+                        //em caso de erro retornamos os mesmos para um variavel
+                        //enviamos para a view
+                        $data['error'] = true;
+                        $data['message'] = $this->upload->display_errors();
+                        echo "ola";
+                }else{
+                        $data[error] = false;
+                        //recuperamos is dadis di arquivo e enviamos para o array view
+                        $data['fileData'] = $this->upload->data();
+                        $arquivoPath = $path.'/'.$data['fileData']['file_name'];
+                        //passando para o array data
+                        $data['urlArquivo'] = base_url($arquivoPath);
+                        //definimos a url para download
+                        $downloadPath = '../ficheiros/'.$data['filleData']['file_name'];
+                        //passando para o array data
+                        $data['urlDownload'] = base_url($downloadPath);
+                        //carregamos a view as informacoes e link para download
+                        $this->load->view('download', $data);
                 }
+                return $data; 
+                /*
+                alterar rotas 
+                application/config/routes.php
+                $route['upload] = 'Upload/Upload'*/       
         }
 }

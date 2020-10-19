@@ -54,5 +54,7 @@ $route['empresa'] = 'Empresa';
 $route['contato'] = 'Contato_new/Contatos';
 $route['upload'] = 'Upload/Upload';
 $route['servico'] = 'Servico';
+$route['base'] = 'Base/index';
+$route['save'] = 'Base/Save';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
